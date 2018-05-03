@@ -30,6 +30,7 @@ def get_html(url):
         else:
             return None
 
+
 def make_soup(url):
     """
     Return BeautifulSoup object for input url
@@ -88,6 +89,7 @@ def get_plot(url, sleep_time=0):
         time.sleep(sleep_time)
         return " ".join(out)
 
+
 def normalize_headers(x):
     """
     Different years may have differing columns names for the same data (i.e. 'Cast', 'Cast and crew', etc).
@@ -106,6 +108,7 @@ def normalize_headers(x):
         return "Cast"
     else:
         return x.replace("\n", "")
+
 
 def get_header(table):
     """
@@ -127,7 +130,6 @@ def get_header(table):
         pass
 
     return [normalize_headers(x) for x in cols]
-
 
 
 def get_movie_table(year):
@@ -194,6 +196,7 @@ def get_movie_table(year):
 
     return df_out
 
+
 def get_all_tables(min_year, max_year, sleep_time=0):
     """
     Return a dataframe containing all American movies released between min_year and max_year
@@ -236,7 +239,6 @@ def get_director(x):
     ---------
     String containing name of director, if present in input (otherwise np.nan)
     """
-
     try:
         x = re.sub("[\\n\;]", ",", x)
         x_lst = x.split(",")
@@ -253,7 +255,6 @@ def get_director(x):
             return np.nan
 
 
-
 if __name__ == "__main__":
     logging.basicConfig(filename="get_data.log", level=logging.DEBUG)
 
@@ -267,11 +268,11 @@ if __name__ == "__main__":
     indx = df_movies["Director"].isnull()
     df_movies.loc[indx, "Director"] = df_movies.loc[indx, "Cast"].apply(lambda x: get_director(x))
 
-
     # Append plot description from each movie Wiki page
     print("Appending Plots")
     t0 = time.time()
 
+    # Iterate over movies and get Plots
     plots = []
     for i in tqdm(range(df_movies.shape[0])):
         url = df_movies.iloc[i]["Wiki Page"]
@@ -286,7 +287,11 @@ if __name__ == "__main__":
 
     # Convert 'Release Year' to type int
     df_movies["Release Year"] = df_movies["Release Year"].astype(int)
-    
 
+    # Subset data containing non-Null Plot and Title
+    keep_indx = df_movies[["Title", "Plot"]].isnull().sum(1) == 0
+    df_out = df_movies[keep_indx]
+
+    # Save as CSV
     print("Saving CSV")
-    df_movies.to_csv("data/wiki_movies.csv", index=False)
+    df_out.to_csv("data/wiki_movie_plots.csv", index=False)
