@@ -4,6 +4,7 @@ import logging
 import numpy as np
 import pandas as pd
 import time
+import re
 from tqdm import tqdm
 
 def get_html(url):
@@ -223,13 +224,49 @@ def get_all_tables(min_year, max_year, sleep_time=0):
     return df_out
 
 
+def get_director(x):
+    """
+    Extract director from 'Cast', if present
+
+    Params :
+    --------
+    x : field containing cast (str)
+
+    Returns :
+    ---------
+    String containing name of director, if present in input (otherwise np.nan)
+    """
+
+    try:
+        x = re.sub("[\\n\;]", ",", x)
+        x_lst = x.split(",")
+    except (AttributeError, TypeError):
+        return np.nan
+    else:
+        for v in x_lst:
+            out = [v for v in x_lst if "director" in v.lower()]
+
+        if len(out) > 0:
+            out = out[0]
+            return re.sub("[\(\[].*?[\)\]]", "", out).strip()
+        else:
+            return np.nan
+
+
+
 if __name__ == "__main__":
     logging.basicConfig(filename="get_data.log", level=logging.DEBUG)
 
     # Get movie info
-    df_movies = get_all_tables(1900, 2017, sleep_time=1)
+    df_movies = get_all_tables(2005, 2017, sleep_time=1)
 
     print("Total Rows: %i\n" %df_movies.shape[0])
+
+    # Extract Director from Cast, if no Director column is present
+    print("Getting directors")
+    indx = df_movies["Director"].isnull()
+    df_movies.loc[indx, "Director"] = df_movies.loc[indx, "Cast"].apply(lambda x: get_director(x))
+
 
     # Append plot description from each movie Wiki page
     print("Appending Plots")
@@ -249,6 +286,7 @@ if __name__ == "__main__":
 
     # Convert 'Release Year' to type int
     df_movies["Release Year"] = df_movies["Release Year"].astype(int)
+    
 
     print("Saving CSV")
     df_movies.to_csv("data/wiki_movies.csv", index=False)
