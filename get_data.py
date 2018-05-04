@@ -73,6 +73,7 @@ def get_plot(url, sleep_time=0):
         plot = soup.find(id="Plot").parent
     except AttributeError:
         logging.debug("Plot header not found: '%s'" % url)
+        return None
     else:
         out = []
 
@@ -106,6 +107,8 @@ def normalize_headers(x):
     """
     if "Cast" in x:
         return "Cast"
+    elif "english title" in x.lower():
+        return "Title"
     else:
         return x.replace("\n", "")
 
@@ -132,9 +135,9 @@ def get_header(table):
     return [normalize_headers(x) for x in cols]
 
 
-def get_movie_table(year):
+def get_movie_table(year, c="American"):
     """
-    Return a dataframe containing info for all American movies released during input year
+    Return a dataframe containing info for all movies released during input year from country of origin (input c)
 
     Params:
     ------
@@ -145,66 +148,72 @@ def get_movie_table(year):
     Dataframe containing movie info
     """
 
-    url = "https://en.wikipedia.org/wiki/List_of_American_films_of_" + str(year)
+    url = "https://en.wikipedia.org/wiki/List_of_%s_films_of_%s" %(c, year)
     soup = make_soup(url)
 
-    tables = soup.find_all("table")
+    try:
+        tables = soup.find_all("table")
+    except AttributeError:
+        return None
+    else:
 
-    df_out = pd.DataFrame()
+        df_out = pd.DataFrame()
 
-    # Iterate over all tables on page
-    for t in tables:
+        # Iterate over all tables on page
+        for t in tables:
 
-        # Get table headers and column count
-        cols = get_header(t)
-        n_cols = len(cols)
+            # Get table headers and column count
+            cols = get_header(t)
+            n_cols = len(cols)
 
-        # Check that table header contains 'Title' and 'Cast'
-        if {"Title", "Cast"}.issubset(set(cols)):
+            # Check that table header contains 'Title' and 'Cast'
+            if {"Title", "Cast"}.issubset(set(cols)):
 
-            # Iterate over table rows (excluding header)
-            for row in t.find_all('tr')[1:]:
-                vals = []
-                for v in row.find_all('td'):
-                    vals.append(v.get_text())
+                # Iterate over table rows (excluding header)
+                for row in t.find_all('tr')[1:]:
+                    vals = []
+                    for v in row.find_all('td'):
+                        vals.append(v.get_text())
 
-                # "Opening" column is not present for all rows, replace with np.nan where missing
-                if len(vals) < n_cols:
-                    n_pad = n_cols - len(vals)
-                    vals = [np.nan]*n_pad + vals
-                elif len(vals) > n_cols:
-                    n = len(vals) - n_cols
-                    vals = vals[n:]
-                else:
-                    pass
+                    # "Opening" column is not present for all rows, replace with np.nan where missing
+                    if len(vals) < n_cols:
+                        n_pad = n_cols - len(vals)
+                        vals = [np.nan]*n_pad + vals
+                    elif len(vals) > n_cols:
+                        n = len(vals) - n_cols
+                        vals = vals[n:]
+                    else:
+                        pass
 
-                # Get link to movie Wiki page, if exists
-                try:
-                    link_post = row.find('a').get_attribute_list('href')[0]
-                    link = 'https://en.wikipedia.org' + link_post
-                except AttributeError:
-                    link = np.nan
+                    # Get link to movie Wiki page, if exists
+                    try:
+                        link_post = row.find('a').get_attribute_list('href')[0]
+                        link = 'https://en.wikipedia.org' + link_post
+                    except AttributeError:
+                        link = np.nan
 
-                cols.extend(["Wiki Page", "Release Year"])
+                    cols.extend(["Wiki Page", "Release Year", "Origin"])
 
-                vals.extend([link, year])
+                    vals.extend([link, year, c])
 
-                # Append row to output dataframe
-                df_out = df_out.append(dict(zip(cols, vals)), ignore_index=True)
-        else:
-            pass
+                    # Append row to output dataframe
+                    df_out = df_out.append(dict(zip(cols, vals)), ignore_index=True)
+            else:
+                pass
 
-    return df_out
+        return df_out
 
 
-def get_all_tables(min_year, max_year, sleep_time=0):
+def get_all_tables(min_year, max_year, c="American", sleep_time=0):
     """
-    Return a dataframe containing all American movies released between min_year and max_year
+    Return a dataframe containing all movies released between min_year and max_year for country of origin (input c)
 
     Params:
     ------
     min_year : minimum year
     max_year : maximum year
+    c : Country of origin
+    sleep_time : Time to wait between page scrapes
 
     Returns:
     --------
@@ -214,14 +223,16 @@ def get_all_tables(min_year, max_year, sleep_time=0):
     df_out = pd.DataFrame()
 
     for year in range(min_year, max_year+1):
-        df = get_movie_table(year)
+        df = get_movie_table(year, c)
 
-        if df.shape[0] > 0:
+        if isinstance(df, pd.DataFrame):
             df_out = pd.concat([df_out, df], axis=0)
+            s = df.shape[0]
         else:
             logging.debug("No movies found for year %i" %year)
+            s = 0
 
-        print("Year %i Complete: %i rows added" %(year, df.shape[0]))
+        print("Year %i Complete (%s): %i rows added" %(year, c, s))
         time.sleep(sleep_time)
 
     return df_out
@@ -258,8 +269,27 @@ def get_director(x):
 if __name__ == "__main__":
     logging.basicConfig(filename="get_data.log", level=logging.DEBUG)
 
+    MIN_YEAR = 1900
+    MAX_YEAR = 2017
+
+    countries = ["American", "Australian", "Bangladeshi", "British", "Canadian", "Chinese",
+                 "Egyptian", "Hong Kong", "Filipino", "Assamese", "Bengali", "Bollywood", "Gujarati",
+                 "Kannada", "Malayalam", "Marathi", "Punjabi", "Tamil", "Telugu", "Tulu",
+                 "Japanese", "Malaysian", "Maldivian", "Russian", "South_Korean", "Turkish"]
+
     # Get movie info
-    df_movies = get_all_tables(2005, 2017, sleep_time=1)
+    df_movies = pd.DataFrame()
+
+    for c in countries:
+        df = get_all_tables(MIN_YEAR, MAX_YEAR, c, 0.5)
+
+        try:
+            if df.shape[0] > 0:
+                df_movies = pd.concat([df_movies, df], axis = 0)
+            else:
+                pass
+        except AttributeError:
+            pass
 
     print("Total Rows: %i\n" %df_movies.shape[0])
 
@@ -267,6 +297,9 @@ if __name__ == "__main__":
     print("Getting directors")
     indx = df_movies["Director"].isnull()
     df_movies.loc[indx, "Director"] = df_movies.loc[indx, "Cast"].apply(lambda x: get_director(x))
+
+    # Save table
+    df_movies.to_csv("../data/movies_table.csv", index=False)
 
     # Append plot description from each movie Wiki page
     print("Appending Plots")
