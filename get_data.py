@@ -70,7 +70,13 @@ def get_plot(url, sleep_time=0):
 
     # Find Plot section header
     try:
-        plot = soup.find(id="Plot").parent
+        p = soup.find(id=["Plot", "plot"])
+
+        if p is None:
+            p = soup.find(id=["Plot_Summary", "Plot_summary", "plot_summary"])
+
+        plot = p.parent
+
     except AttributeError:
         logging.debug("Plot header not found: '%s'" % url)
         return None
