@@ -105,7 +105,7 @@ def normalize_headers(x):
     Normalized column name
 
     """
-    if "Cast" in x:
+    if "cast" in x.lower():
         return "Cast"
     elif "english title" in x.lower():
         return "Title"
@@ -167,7 +167,10 @@ def get_movie_table(year, c="American"):
             n_cols = len(cols)
 
             # Check that table header contains 'Title' and 'Cast'
-            if {"Title", "Cast"}.issubset(set(cols)):
+            std_cols = {"Title", "Cast", "Director", "Genre"}
+            col_int = std_cols.intersection(set(cols))
+
+            if len(col_int) >= 2:
 
                 # Iterate over table rows (excluding header)
                 for row in t.find_all('tr')[1:]:
@@ -299,7 +302,7 @@ if __name__ == "__main__":
     df_movies.loc[indx, "Director"] = df_movies.loc[indx, "Cast"].apply(lambda x: get_director(x))
 
     # Save table
-    df_movies.to_csv("../data/movies_table.csv", index=False)
+    df_movies.to_csv("data/movies_table.csv", index=False)
 
     # Append plot description from each movie Wiki page
     print("Appending Plots")
