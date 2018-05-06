@@ -201,7 +201,7 @@ def get_movie_table(year, c="American"):
                     except AttributeError:
                         link = np.nan
 
-                    cols.extend(["Wiki Page", "Release Year", "Origin"])
+                    cols.extend(["Wiki Page", "Release Year", "Origin/Ethnicity"])
 
                     vals.extend([link, year, c])
 
@@ -324,7 +324,7 @@ if __name__ == "__main__":
     print("Completed in %0.3f sec" %(time.time() - t0))
 
     # Keep columns that are consistent across most years
-    keep_cols = ["Release Year", "Title", "Director", "Cast", "Genre", "Wiki Page", "Plot"]
+    keep_cols = ["Release Year", "Title", "Origin/Ethnicity", "Director", "Cast", "Genre", "Wiki Page", "Plot"]
     df_movies = df_movies[keep_cols]
 
     # Convert 'Release Year' to type int
