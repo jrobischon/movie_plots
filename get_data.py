@@ -85,14 +85,18 @@ def get_plot(url, sleep_time=0):
 
         # Extract all text content until next header
         while True:
-            plot = plot.findNextSibling()
-            if plot.name == 'h2':
-                break
-            elif plot.name == 'p':
-                out.append(plot.get_text())
-            else:
-                break
 
+            try:
+                plot = plot.findNextSibling()
+                if plot.name == 'h2':
+                    break
+                elif plot.name == 'p':
+                    out.append(plot.get_text())
+                else:
+                    break
+            except AttributeError:
+                break
+                
         time.sleep(sleep_time)
         return " ".join(out)
 
@@ -307,7 +311,13 @@ if __name__ == "__main__":
     indx = df_movies["Director"].isnull()
     df_movies.loc[indx, "Director"] = df_movies.loc[indx, "Cast"].apply(lambda x: get_director(x))
 
-    # Save table
+    # Keep only obs. w/ a title
+    df_movies = df_movies[df_movies["Title"].notnull()]
+
+    # Keep columns that are consistent across most years
+    keep_cols = ["Release Year", "Title", "Origin/Ethnicity", "Director", "Cast", "Genre", "Wiki Page"]
+    df_movies = df_movies[keep_cols]
+
     df_movies.to_csv("data/movies_table.csv", index=False)
 
     # Append plot description from each movie Wiki page
@@ -323,15 +333,11 @@ if __name__ == "__main__":
     df_movies["Plot"] = plots
     print("Completed in %0.3f sec" %(time.time() - t0))
 
-    # Keep columns that are consistent across most years
-    keep_cols = ["Release Year", "Title", "Origin/Ethnicity", "Director", "Cast", "Genre", "Wiki Page", "Plot"]
-    df_movies = df_movies[keep_cols]
-
     # Convert 'Release Year' to type int
     df_movies["Release Year"] = df_movies["Release Year"].astype(int)
 
-    # Subset data containing non-Null Plot and Title
-    keep_indx = df_movies[["Title", "Plot"]].isnull().sum(1) == 0
+    # Subset data containing non-Null Plot
+    keep_indx = df_movies["Plot"].notnull()
     df_out = df_movies[keep_indx]
 
     # Save as CSV
