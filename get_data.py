@@ -93,10 +93,10 @@ def get_plot(url, sleep_time=0):
                 elif plot.name == 'p':
                     out.append(plot.get_text())
                 else:
-                    break
+                    pass
             except AttributeError:
                 break
-                
+
         time.sleep(sleep_time)
         return " ".join(out)
 
@@ -313,6 +313,7 @@ if __name__ == "__main__":
 
     # Keep only obs. w/ a title
     df_movies = df_movies[df_movies["Title"].notnull()]
+    print("Total Rows w/ Title: %i\n" % df_movies.shape[0])
 
     # Keep columns that are consistent across most years
     keep_cols = ["Release Year", "Title", "Origin/Ethnicity", "Director", "Cast", "Genre", "Wiki Page"]
@@ -337,8 +338,7 @@ if __name__ == "__main__":
     df_movies["Release Year"] = df_movies["Release Year"].astype(int)
 
     # Subset data containing non-Null Plot
-    keep_indx = df_movies["Plot"].notnull()
-    df_out = df_movies[keep_indx]
+    df_out = df_movies[df_movies["Plot"].notnull()]
 
     # Save as CSV
     print("Saving CSV")
