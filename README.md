@@ -14,14 +14,14 @@ The project code consists of the following:
 
 * get_data.py (scrapes movie data from Wikipedia)
 * tests/tests.py (unit tests for get_data.py)
-* notebooks/data_exploration.ipynb
-* notebooks/recommender.ipynb
+* notebooks/data_exploration.ipynb (TODO: create notebook to explore dataset)
+* notebooks/recommender.ipynb (TODO: create notebook w/ recommender)
 
 **Data**
 ---
-The dataset used in this project was compiled by scraping data from Wikipedia.  The dataset has been made publicly available and can be found at the following link: **insert link**
+The dataset used in this project was compiled by scraping data from Wikipedia.  The dataset has been made publicly available and can be found at the following link: **<TODO: insert link>**
 
-The dataset describes **insert number of observations** movies from around the world, including a long-form summary of each movie's plot (WARNING: May contain spoilers!!).   All columns are listed below:
+The dataset describes **<TODO: insert number of observations>** movies from around the world, including a long-form summary of each movie's plot (WARNING: May contain spoilers!!).   All columns are listed below:
 
 * Title
 * Director
