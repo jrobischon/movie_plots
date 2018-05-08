@@ -312,7 +312,7 @@ if __name__ == "__main__":
     df_movies.loc[indx, "Director"] = df_movies.loc[indx, "Cast"].apply(lambda x: get_director(x))
 
     # Keep only obs. w/ a title
-    df_movies = df_movies[df_movies["Title"].notnull()]
+    df_movies = df_movies[(df_movies["Title"].notnull()) & (df_movies["Title"] != "")]
     print("Total Rows w/ Title: %i\n" % df_movies.shape[0])
 
     # Keep columns that are consistent across most years
