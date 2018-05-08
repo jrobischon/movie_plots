@@ -338,7 +338,7 @@ if __name__ == "__main__":
     df_movies["Release Year"] = df_movies["Release Year"].astype(int)
 
     # Subset data containing non-Null Plot
-    df_out = df_movies[df_movies["Plot"].notnull()]
+    df_out = df_movies[(df_movies["Plot"].notnull()) & (df_movies["Plot"] != "")]
 
     # Save as CSV
     print("Saving CSV")
