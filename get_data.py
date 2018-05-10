@@ -98,7 +98,7 @@ def get_plot(url, sleep_time=0):
                 break
 
         time.sleep(sleep_time)
-        return " ".join(out)
+        return "\n".join(out)
 
 
 def normalize_headers(x):
