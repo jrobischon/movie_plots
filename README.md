@@ -19,9 +19,9 @@ The project code consists of the following:
 
 **Data**
 ---
-The dataset used in this project was compiled by scraping data from Wikipedia.  The dataset has been made publicly available and can be found at the following link: **<TODO: insert link>**
+The dataset used in this project was compiled by scraping data from movie pages on Wikipedia.  The dataset has been made publicly available and can be found at the following link: **<TODO: insert link>**
 
-The dataset describes **<TODO: insert number of observations>** movies from around the world, including a long-form summary of each movie's plot (WARNING: May contain spoilers!!).   All columns are listed below:
+The dataset describes 35,697 movies from around the world, including a long-form summary of each movie's plot (WARNING: May contain spoilers!!).   All columns are listed below:
 
 * Title
 * Director
