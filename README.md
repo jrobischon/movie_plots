@@ -12,7 +12,7 @@ Output : Movies with plots similar to input plot
 
 The project code consists of the following:
 
-* get_data.py (scrapes movie data from Wikipedia)
+* data_scraper.py (scrapes movie data from Wikipedia)
 * tests/tests.py (unit tests for get_data.py)
 * notebooks/data_exploration.ipynb (TODO: create notebook to explore dataset)
 * notebooks/recommender.ipynb (TODO: create notebook w/ recommender)
