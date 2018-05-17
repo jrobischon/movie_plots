@@ -12,9 +12,9 @@ Output : Movies with plots similar to input plot
 
 The project code consists of the following:
 
-* data_scraper.py (scrapes movie data from Wikipedia)
-* tests/tests.py (unit tests for get_data.py)
-* notebooks/data_exploration.ipynb (TODO: create notebook to explore dataset)
+* [data_scraper.py](https://github.com/jrobischon/movie_plots/blob/master/data_scraper.py) (scrapes movie data from Wikipedia)
+* [tests/tests.py](https://github.com/jrobischon/movie_plots/blob/master/tests/tests.py) (unit tests for get_data.py)
+* [notebooks/data_exploration.ipynb](https://github.com/jrobischon/movie_plots/blob/master/notebooks/Data%20Exploration.ipynb) (TODO: create notebook to explore dataset)
 * notebooks/recommender.ipynb (TODO: create notebook w/ recommender)
 
 **Data**
