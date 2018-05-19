@@ -117,7 +117,7 @@ def normalize_headers(x):
     """
     if "cast" in x.lower():
         return "Cast"
-    elif "english title" in x.lower():
+    elif ("english" in x.lower()) & ("title" in x.lower()):
         return "Title"
     else:
         return x.replace("\n", "")

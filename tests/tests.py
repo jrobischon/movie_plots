@@ -3,7 +3,7 @@ import sys
 sys.path.append("../")
 import os
 from bs4 import *
-from get_data import *
+from data_scraper import *
 import pandas as pd
 
 
