@@ -285,10 +285,12 @@ if __name__ == "__main__":
     MIN_YEAR = 1900
     MAX_YEAR = 2017
 
-    countries = ["American", "Australian", "Bangladeshi", "British", "Canadian", "Chinese",
-                 "Egyptian", "Hong Kong", "Filipino", "Assamese", "Bengali", "Bollywood", "Gujarati",
-                 "Kannada", "Malayalam", "Marathi", "Punjabi", "Tamil", "Telugu", "Tulu",
-                 "Japanese", "Malaysian", "Maldivian", "Russian", "South_Korean", "Turkish"]
+    countries = ['American', 'Argentine', 'Assamese', 'Australian', 'Bangladeshi', 'Bengali', 'Bollywood',
+                 'British', 'Canadian', 'Chinese', 'Egyptian', 'Filipino', 'French', 'Gujarati',
+                 'Hong Kong', 'Irish', 'Italian', 'Japanese', 'Kannada', 'Malayalam', 'Malaysian',
+                 'Maldivian', 'Marathi', 'Mexican', 'Nigerian', 'Pakistani', 'Portuguese', 'Punjabi',
+                 'Romanian', 'Russian', 'Singaporean', 'South_Korean', 'Spanish', 'Tamil', 'Telugu', 'Tulu', 'Turkish']
+
 
     # Get movie info
     df_movies = pd.DataFrame()
