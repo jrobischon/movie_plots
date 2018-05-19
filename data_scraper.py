@@ -241,12 +241,15 @@ def get_all_tables(min_year, max_year, c="American", sleep_time=0):
         if isinstance(df, pd.DataFrame):
             df_out = pd.concat([df_out, df], axis=0)
             s = df.shape[0]
+
+            t = sleep_time
         else:
             logging.debug("No movies found for year %i" %year)
             s = 0
+            t = 0
 
         print("Year %i Complete (%s): %i rows added" %(year, c, s))
-        time.sleep(sleep_time)
+        time.sleep(t)
 
     return df_out
 
