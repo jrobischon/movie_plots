@@ -14,8 +14,10 @@ The project code consists of the following:
 
 * [data_scraper.py](https://github.com/jrobischon/movie_plots/blob/master/data_scraper.py) (scrapes movie data from Wikipedia)
 * [tests/tests.py](https://github.com/jrobischon/movie_plots/blob/master/tests/tests.py) (unit tests for get_data.py)
-* [notebooks/data_exploration.ipynb](https://github.com/jrobischon/movie_plots/blob/master/notebooks/Data%20Exploration.ipynb) (TODO: create notebook to explore dataset)
-* notebooks/recommender.ipynb (TODO: create notebook w/ recommender)
+* [notebooks/data_exploration.ipynb](https://github.com/jrobischon/movie_plots/blob/master/notebooks/Data%20Exploration.ipynb)
+(exploration of dataset)
+* [notebooks/Train Doc2Vec.ipynb](https://github.com/jrobischon/movie_plots/blob/master/notebooks/Train%20Doc2Vec.ipynb) (Train a Doc2Vec model)
+* [notebooks/Keras Model.ipynb](https://github.com/jrobischon/movie_plots/blob/master/notebooks/Keras%20Model.ipynb) (Train a Keras model)
 
 **Data**
 ---
