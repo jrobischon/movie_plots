@@ -17,7 +17,7 @@ The project code consists of the following:
 * [notebooks/data_exploration.ipynb](https://github.com/jrobischon/movie_plots/blob/master/notebooks/Data%20Exploration.ipynb)
 (exploration of dataset)
 * [notebooks/Train Doc2Vec.ipynb](https://github.com/jrobischon/movie_plots/blob/master/notebooks/Train%20Doc2Vec.ipynb) (Train a Doc2Vec model)
-* [notebooks/Keras Model.ipynb](https://github.com/jrobischon/movie_plots/blob/master/notebooks/Keras%20Model.ipynb) (Train a Keras model)
+* [notebooks/Keras Model.ipynb](https://github.com/jrobischon/movie_plots/blob/master/notebooks/Keras%20Model.ipynb) (Train a Keras model  **In Progress**)
 
 **Data**
 ---
