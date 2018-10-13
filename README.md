@@ -32,7 +32,4 @@ The dataset describes 40,179 movies from around the world, including a long-form
 * Origin
 
 
-**Potential Next Steps**
----
-* Embed recommender in a web app
 
