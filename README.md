@@ -21,7 +21,7 @@ The project code consists of the following:
 
 **Data**
 ---
-The dataset used in this project was compiled by scraping data from movie pages on Wikipedia.  The dataset has been made publicly available and can be found at the following link: **<TODO: insert link>**
+The dataset used in this project was compiled by scraping data from movie pages on Wikipedia.  The dataset has been made publicly available and can be found at the following [link](https://www.kaggle.com/jrobischon/wikipedia-movie-plots)
 
 The dataset describes 34,886 movies from around the world, including a long-form summary of each movie's plot (WARNING: May contain spoilers!!).   Column descriptions are listed below:
 
