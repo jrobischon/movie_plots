@@ -21,15 +21,18 @@ The project code consists of the following:
 
 **Data**
 ---
-The dataset used in this project was compiled by scraping data from movie pages on Wikipedia.  The dataset has been made publicly available and can be found at the following link: **<TODO: insert link>**
+The dataset used in this project was compiled by scraping data from movie pages on Wikipedia.  The dataset has been made publicly available and can be found at the following [link](https://www.kaggle.com/jrobischon/wikipedia-movie-plots)
 
-The dataset describes 40,179 movies from around the world, including a long-form summary of each movie's plot (WARNING: May contain spoilers!!).   All columns are listed below:
+The dataset describes 34,886 movies from around the world, including a long-form summary of each movie's plot (WARNING: May contain spoilers!!).   Column descriptions are listed below:
 
-* Title
-* Director
-* Cast
-* Plot
-* Origin
+* Release Year - Year in which the movie was released
+* Title - Movie title
+* Origin / Ethnicity - Origin of movie (i.e. American, Bollywood, Tamil, etc.)
+* Director - Director(s)
+* Plot - Main actor and actresses
+* Genre - Movie Genre(s)
+* Wiki Page - URL of the Wikipedia movie page from which the plot description was scraped
+* Plot - Long form description of movie plot
 
 
 
